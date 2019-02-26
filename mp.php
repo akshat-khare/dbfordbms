@@ -39,9 +39,10 @@
             echo $district." ".$constituency;
         ?>
 
-        <?php while ($row = pg_fetch_array($rows)) {?>
-            <?php echo $row; ?>
-        <?php }?>
+        <?php while ($row = pg_fetch_array($rows)) {
+             echo $row; 
+        }
+        ?>
     </div>
 
     <?php include 'footer.php' ?>
