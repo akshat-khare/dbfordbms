@@ -23,26 +23,22 @@
                 if (!preg_match("/^[a-zA-Z ]*$/",$district)) {
                     $nameErr = "Only letters and white space allowed";
                 }
+        
+                $db = pg_connect( "host=localhost port=5432 dbname=project1 user=group_13 password=205-265-669" );
+                $query = "SELECT candidate_name FROM ls2009candi WHERE pc_name='Lucknow' AND position=1";
+                $rows = pg_query($query);
             }
         }
 
-        pg_connect("host=localhost dbname=project1");
-        $query = "SELECT * FROM attendancedata";
-        $rows = pg_query($query);
     ?>
 
     <div class="container">
         <hr>
         <h1>Know Your MP</h1>
-        <?php
-            echo "<p>Your Input:</p>";
-            echo $district." ".$constituency;
-        ?>
 
         <?php while ($row = pg_fetch_array($rows)) {
-             echo $row; 
-        }
-        ?>
+            echo $row['candidate_name'];
+        }?>
     </div>
 
     <?php include 'footer.php' ?>
