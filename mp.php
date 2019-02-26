@@ -39,8 +39,11 @@
                         $chooseconsti = pg_query($querychoose);
                     } else {
                         // Get the districts from the keyword
-                        $querydistrict = "SELECT candidate_name, distoconsti.pc AS pc_name FROM distoconsti, ls2009candi WHERE upper(distoconsti.dist) like '%$district%' AND upper(ls2009candi.pc_name) like %distoconsti.pc% AND ls2009candi.position=1";
+                        $querydistrict = "SELECT candidate_name, distoconsti.pc AS pc_name FROM distoconsti, ls2009candi WHERE upper(distoconsti.dist) like '%$district%' AND upper(ls2009candi.pc_name) like '%' ||distoconsti.pc || '%' AND ls2009candi.position=1";
                         $chooseconsti = pg_query($querydistrict);
+                        // while ($row = pg_fetch_array($chooseconsti)) {
+                        //     echo $row['candidate_name'];
+                        // }
                     }
                 } else {
                     // Give the queries for the selected MP
@@ -78,7 +81,7 @@
                     echo '<div class="form-check">
                             <input class="form-check-input" type="radio" name="constituency" id='.$row['pc_name'].' value="'.$row['pc_name'].'" checked>
                             <label class="form-check-label" for="'.$row['pc_name'].'">
-                                '.$row['candidate_name'].' -- '.$row['pc_name'].'
+                                '.strtoupper($row['candidate_name']).'   ----   '.strtoupper($row['pc_name']).'
                             </label>
                         </div>';
                 }
