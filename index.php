@@ -18,38 +18,7 @@
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">Home</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Blog
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                            <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                            <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                            <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include 'navbar.php' ?>
 
     <header>
         <img src="./img/parliament-of-india.png" class="rounded mx-auto d-block figure" alt="Image for Parliament of India.">
@@ -58,41 +27,35 @@
     <!-- Page Content -->
     <div class="container">
         <h1>Parliamentary Data Visualization</h2>
-        <p>This is a demo application created using plain PHP (with some CSS sprinkled in).</p>
-    
-        <h2 class="mt-5 ">Playstore Reviews Sentiment Analysis</h1>
-        <p class="lead">Showing the results of: SELECT * FROM playstore ORDER BY random() LIMIT 25</p>
-    
-        <?php
-        pg_connect("host=ip dbname=db_name user=user_name password=pswd");
-        $query = "SELECT * FROM playstore ORDER BY random() LIMIT 25";
-        $rows = pg_query($query);
-        ?>
-    
-        <table>
-            <thead>
-                <tr>
-                    <th>App Name</th>
-                    <th>Review</th>
-                    <th>Sentiment</th>
-                    <th>Polarity</th>
-                    <th>Subjectivity</th>
-                </tr>
-            </thead>
-    
-            <tbody>
-                <?php while ($row = pg_fetch_array($rows)) {?>
-                <tr>
-                    <td> <?php echo $row['app_name']; ?> </td>
-                    <td> <?php echo $row['review']; ?> </td>
-                    <td> <?php echo $row['senti']; ?> </td>
-                    <td> <?php echo $row['polarity']; ?> </td>
-                    <td> <?php echo $row['subjectivity']; ?> </td>
-                </tr>
-                <?php }?>
-            </tbody>
-    
-        </table>
+        <p>This is an application created using plain PHP (with some CSS sprinkled in) to demonstrate Parliamentary data.</p>
+        
+        <form>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group row">
+                        <label for="inputConsti" class="col-sm-2 col-form-label">Constituency</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control col-sm-8" id="inputConsti" placeholder="Enter Consitutency Name">
+                        </div>
+                    </div>
+                    <p class="text-center"><strong>OR</strong></p>
+                    <div class="form-group row">
+                        <label for="inputDistrict" class="col-sm-2 col-form-label">District</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control col-sm-8" id="inputDistrict" placeholder="Enter District">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Know Your MP</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
 
 
