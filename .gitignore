@@ -1,5 +1,16 @@
+# Files that must not be uploaded to the repo
 dbtemp.sql
 *.zip
 test.sql
 *.xls
 district_consti.csv
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.svg
+
+# Other folders that are not useful yet
+doc/
+temp/
