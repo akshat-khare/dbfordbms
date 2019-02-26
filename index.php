@@ -1,21 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>COL 362/632 - Project 1 - Demo PHP App</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-
-    <!-- Link to all CSS files -->
-    <link rel="stylesheet" href="./css/custom.css" />
-</head>
+<?php include 'head.php' ?>
 
 <body>
     <?php include 'navbar.php' ?>
@@ -26,23 +11,24 @@
 
     <!-- Page Content -->
     <div class="container">
-        <h1>Parliamentary Data Visualization</h2>
+        <hr>
+        <h1>Parliamentary Data Visualization</h1>
         <p>This is an application created using plain PHP (with some CSS sprinkled in) to demonstrate Parliamentary data.</p>
         
-        <form>
+        <form method="post" action="mp.php">
             <div class="row">
                 <div class="col-sm-10">
                     <div class="form-group row">
                         <label for="inputConsti" class="col-sm-2 col-form-label">Constituency</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control col-sm-8" id="inputConsti" placeholder="Enter Consitutency Name">
+                            <input name="constituency" value="<?php echo $constituency; ?>" class="form-control col-sm-8" id="inputConsti" placeholder="Enter Consitutency Name">
                         </div>
                     </div>
                     <p class="text-center"><strong>OR</strong></p>
                     <div class="form-group row">
                         <label for="inputDistrict" class="col-sm-2 col-form-label">District</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control col-sm-8" id="inputDistrict" placeholder="Enter District">
+                            <input name="district" class="form-control col-sm-8" id="inputDistrict" placeholder="Enter District">
                         </div>
                     </div>
                 </div>

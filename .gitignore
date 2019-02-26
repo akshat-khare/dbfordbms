@@ -6,7 +6,6 @@ test.sql
 district_consti.csv
 
 # Images
-*.png
 *.jpg
 *.jpeg
 *.svg
