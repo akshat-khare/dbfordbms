@@ -17,16 +17,16 @@
             if (empty($_POST["district"]) && empty($_POST["constituency"])) {
                 $nameErr = "Either district or constituency is required";
             } else {
-                $district = test_input($_POST["district"]);
-                $constituency = test_input($_POST["constituency"]);
+                $district = strtoupper(test_input($_POST["district"]));
+                $constituency = strtoupper(test_input($_POST["constituency"]));
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z ]*$/",$district)) {
                     $nameErr = "Only letters and white space allowed";
                 }
         
                 $db = pg_connect( "host=localhost port=5432 dbname=project1 user=group_13 password=205-265-669" );
-                $queryname = "SELECT candidate_name FROM ls2009candi WHERE pc_name='$constituency' AND position=1";
-                $queryattendance = "SELECT session, totalsittings, dayssigned FROM attendancedata WHERE constituency='$constituency' ORDER BY session";
+                $queryname = "SELECT candidate_name FROM ls2009candi WHERE upper(pc_name) like '%$constituency%' AND position=1";
+                $queryattendance = "SELECT session, totalsittings, dayssigned FROM attendancedata WHERE upper(constituency) like '%$constituency%' ORDER BY session";
                 $name = pg_query($queryname);
                 $attendance = pg_query($queryattendance);
             }
