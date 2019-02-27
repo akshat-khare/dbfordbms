@@ -44,8 +44,8 @@ $$
 LANGUAGE 'plpgsql';
 
 
-
-CREATE OR REPLACE FUNCTION maxdiv()
+-- this not working
+CREATE OR REPLACE FUNCTION maxdiv1()
 	RETURNS int AS
 $$
 BEGIN
@@ -55,7 +55,7 @@ $$
 LANGUAGE 'plpgsql';
 
 
-CREATE OR REPLACE FUNCTION addcand()
+CREATE OR REPLACE FUNCTION addcand1()
   RETURNS trigger AS
 $$
 DECLARE
@@ -64,7 +64,7 @@ DECLARE
 BEGIN
 
         IF NEW.position = 1 THEN
-          j := maxdiv();
+          j := maxdiv1();
           LOOP
              INSERT INTO attendancedata
              VALUES(maxsno(i),j,NEW.candidate_name,15,i,NEW.state_name,NEW.pc_name,0,0);
@@ -85,7 +85,7 @@ CREATE TRIGGER addnew
   AFTER INSERT
   ON ls2009candi
   FOR EACH ROW
-  EXECUTE PROCEDURE addcand();
+  EXECUTE PROCEDURE addcand1();
 
 
 
