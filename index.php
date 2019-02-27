@@ -41,6 +41,12 @@
                 </div>
             </div>
         </form>
+        <form method="post" action="misc.php">
+            <input type="radio" name="typemisc" value="Law">Law
+            <input type="radio" name="typemisc" value="Agriculture">Agriculture
+            <input type="radio" name="typemisc" value="Other">Other <input type="text" name="othertype" placeholder="some trend of your specified value"/>
+            <input type="submit" name="Submitmisc" value="Submit type">
+        </form>
 
     </div>
 
