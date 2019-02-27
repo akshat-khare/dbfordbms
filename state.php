@@ -16,7 +16,7 @@
 
         $state = "";
         $choice = 0;
-        $state_attendance = 0;
+        $state_attendance = $avg_age = 0;
         $year1 = $year2 = $limit1 = $limit2 = 10;
         $order1 = $order2 = "DESC";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -56,7 +56,7 @@
                 // Give the queries for the Selected District
                 $querystateattendance = "SELECT ROUND((dayssigned*100 + 10)/(totalsittings + 20), 2) AS attendance FROM statewiseattendance WHERE trim(UPPER(state)) = '$state'";
                 $querytopmps = "SELECT name, constituency, ROUND((dayssigned*100+5)/(totalsittings+10), 2) AS attendance
-                                FROM compiled_attendance WHERE trim(UPPER(state)) = '$state' ORDER BY attendance LIMIT 10";
+                                FROM compiled_attendance WHERE trim(UPPER(state)) = '$state' ORDER BY attendance DESC LIMIT 10";
                 $querypartypos = "SELECT count(*) as num, party_abbreviation FROM ls2009candi
                                 WHERE trim(UPPER(state_name)) = '$state' AND position = 1 GROUP BY party_abbreviation ORDER BY num";
                 $queryavgage = "SELECT ROUND(AVG(candidate_age), 2) as avg_age FROM ls2009candi
@@ -75,7 +75,9 @@
                 $bestdistipc = pg_query($querybestdistipc);
                 $bestdistagri = pg_query($querybestdistagri);
                 $stateattendance = pg_query($querystateattendance);
-
+                while ($row = pg_fetch_array($avgage)) {
+                    $avg_age = $row['avg_age'];
+                }
                 while ($row = pg_fetch_array($stateattendance)) {
                     $state_attendance = $row['attendance'];
                 }
@@ -117,7 +119,29 @@
 
                 <p>The average attendance of the MPs from your chosen state is: <?php echo $state_attendance; ?></p>
                 <p><strong>Demography of MPs elected from this state:</strong></p>
-                <p>The average age of MPs from this state is: <?php ?></p>                
+                <p>The average age of MPs from this state is: <?php echo $avg_age; ?></p>                
+
+                <p><strong>MPs with most attendance in Lok Sabha:</strong></p>
+                <?php
+                    echo '<table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Constituency</th>
+                                <th>Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                    while ($row = pg_fetch_array($topmps)) {
+                            echo '<tr>
+                                <td>'.$row['name'].'</td>
+                                <td>'.$row['constituency'].'</td>
+                                <td>'.$row['attendance'].'</td>
+                            </tr>';
+                    }
+                    echo '</tbody>
+                    </table> <br>';
+                ?>
 
                 <p><strong>Position of Districts:</strong></p>
                 <p>The position of the districts of this state as per the given filters is as follows: </p>
