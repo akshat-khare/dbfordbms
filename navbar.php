@@ -13,7 +13,7 @@
                     <a class="nav-link" href="district.php">Know Your District</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Know Your State</a>
+                    <a class="nav-link" href="state.php">Know Your State</a>
                 </li>
                 <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"

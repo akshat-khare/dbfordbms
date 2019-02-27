@@ -63,3 +63,8 @@ body {
     max-height: 50vh;
     overflow: scroll;
 }
+
+.best-table {
+    display: inline-block;
+    margin: 0 25px;
+}
