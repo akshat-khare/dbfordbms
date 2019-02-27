@@ -51,7 +51,7 @@
                 }
 
                 // connect to database
-                $db = pg_connect( "host=localhost port=5432 dbname=project1 user=group_13 password=205-265-669" );
+                $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
 
                 // Give the queries for the Selected District
                 $querystateattendance = "SELECT ROUND((dayssigned*100 + 10)/(totalsittings + 20), 2) AS attendance FROM statewiseattendance WHERE trim(UPPER(state)) = '$state'";

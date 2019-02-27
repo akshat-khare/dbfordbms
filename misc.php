@@ -14,7 +14,7 @@
     if(isset($_POST['Submitmisc'])){ 
         $radioval = $_POST['typemisc'];
         if($radioval=="Law"){
-            $db = pg_connect( "host=localhost port=5432 dbname=project1 user=group_13 password=205-265-669" );
+            $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
             $totquery="
             select billt.year, numbills, numcrimes from 
                 (select year, count(*) as numbills from govtbills where upper(ministry) like '%LAW%' group by year order by year) as billt
@@ -34,7 +34,7 @@
 
         }elseif ($radioval=="Agriculture") {
             # code...
-            $db = pg_connect( "host=localhost port=5432 dbname=project1 user=group_13 password=205-265-669" );
+            $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
             $totquery="
             select billt.year, numbills, prodsum, areasum from 
                 (select year, count(*) as numbills from govtbills where upper(ministry) like '%AGRICULTURE%' group by year order by year) as billt
@@ -56,7 +56,7 @@
             $textinp = strtoupper($_POST['othertype']);
             if(!empty($textinp)){
 
-                $db = pg_connect( "host=localhost port=5432 dbname=project1 user=group_13 password=205-265-669" );
+                $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
                 $totquery="
                 select year, ministry, short_title_of_bill, status from govtbills where upper(ministry) like '%".$textinp."%' order by year,ministry, short_title_of_bill;
                 ";

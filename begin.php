@@ -116,7 +116,7 @@ create index searchindex3 on ls2009candi using btree (st_code, month, year, cand
 create index searchindex4 on ls2014candi using btree (st_code, month, year, candidate_name);
 
 ";
-$db = pg_connect( "host=localhost port=5432 dbname=project1 user=group_13 password=205-265-669" );
+$db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
 $result=pg_query($totquery);
 if(!$result){
     echo "Error<br>";
