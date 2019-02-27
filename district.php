@@ -38,7 +38,7 @@
                     $querydistrict = "SELECT DISTINCT state, dist FROM distoconsti WHERE upper(distoconsti.dist) like '%$district%'";
                     $choosedistrict = pg_query($querydistrict);
                 } elseif ($choice == 2) {
-                    // Give the queries for the selected MP
+                    // Give the queries for the Selected District
                     $queryseasons = "SELECT DISTINCT season FROM agriculture";
                     $queryconsti = "SELECT candidate_name, party_abbreviation, total_votes_polled, pc_name
                                     FROM (SELECT pc FROM distoconsti
@@ -183,7 +183,6 @@
                                 </tr>';
                         }
                         echo '</tbody></table></div></div><br>';
-                    }
                 ?>
             </div>
 
@@ -228,6 +227,80 @@
                     </tr>
                 </tbody>
             </table>
+        
+            <br>
+            <br>
+
+            <!-- Comprehensive Agricultural data -->
+            <p><strong>Comprehensive season-wise Agricultural Production Data for the District:</strong></p>
+            <div class="row">   
+                <div class="col-sm-4">
+                    <!-- Form for seasons selected -->
+                    <form action="district.php?choice=2" method="post">
+                        <?php 
+
+                        // Give the details for the selected seasons
+                        // $chosen = $_POST['chosen_seasons'];
+                        // for($i=0; $i < count($chosen); $i++){
+                        //     echo "Selected " . $chosen[$i] . "<br/>";
+                        // }
+                        while ($row = pg_fetch_array($seasons)) { ?>
+                            <div class="form-group row">
+                                    <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="grid-<?php echo $row['season']; ?>" name="chosen_seasons[]" value="<?php echo $row['season']; ?>" <?php if (in_array($row['season'], $_POST['chosen_seasons'])) echo "checked='checked'"; ?> >
+                                        <label class="form-check-label" for="grid-<?php echo $row['season']; ?>">
+                                            <?php echo $row['season']; ?>  
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <input type="hidden" value="<?php echo $district; ?>" name="district">
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-8">
+                    <!-- The details -->
+                    <?php
+                        $chosen = $_POST['chosen_seasons'];
+                        $queryselectedseasons = "SELECT year, sum(production) FROM agriculture WHERE UPPER(district)='$district' AND year > 2003 AND (";
+                        for ($i = 0; $i < count($chosen); $i++) {
+                            if ($i == 0) {
+                                $queryselectedseasons = $queryselectedseasons." trim(UPPER(season)) = '".trim(strtoupper($chosen[$i]))."'";
+                            } else {
+                                $queryselectedseasons = $queryselectedseasons." OR trim(UPPER(season)) = '".trim(strtoupper($chosen[$i]))."'";
+                            }
+                        }
+                        $queryselectedseasons = $queryselectedseasons.") GROUP BY year";
+                        $selectedseasons = pg_query($queryselectedseasons);
+
+                        echo '<table>
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Total Production</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+                        while ($row = pg_fetch_array($selectedseasons)) {
+                                echo '<tr>
+                                    <td>'.$row['year'].'</td>
+                                    <td>'.$row['sum'].'</td>
+                                </tr>';
+                        }
+                        echo '</tbody>
+                        </table> <br>';
+                    ?>
+                </div>
+            </div>
+
+        <?php } ?>
+            
 
     </div>
 
