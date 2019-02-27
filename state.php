@@ -117,6 +117,40 @@
 
                 <p>The average attendance of the MPs from your chosen state is: <?php echo $state_attendance; ?></p>
                 <p><strong>Demography of MPs elected from this state:</strong></p>
+                <?php
+                    echo '<table class="best-table">
+                            <thead>
+                                <tr>
+                                    <th>Sex</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                        <tbody>';
+                    while ($row = pg_fetch_array($mpsex)) {
+                            echo '<tr>
+                                <td>'.$row['candidate_sex'].'</td>
+                                <td>'.$row['count'].'</td>
+                            </tr>';
+                    }
+                    echo '</tbody>
+                    </table>';
+                    echo '<table class="best-table">
+                            <thead>
+                                <tr>
+                                    <th>Party name</th>
+                                    <th>Victories</th>
+                                </tr>
+                            </thead>
+                        <tbody>';
+                    while ($row = pg_fetch_array($partypos)) {
+                            echo '<tr>
+                                <td>'.$row['party_abbreviation'].'</td>
+                                <td>'.$row['num'].'</td>
+                            </tr>';
+                    }
+                    echo '</tbody>
+                    </table>';
+                ?>
                 <p>The average age of MPs from this state is: <?php ?></p>                
 
                 <p><strong>Position of Districts:</strong></p>
