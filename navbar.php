@@ -15,6 +15,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="state.php">Know Your State</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.php">Admin</a>
+                </li>
                 <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
