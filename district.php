@@ -40,6 +40,7 @@
                 } elseif ($choice == 2) {
                     // Give the queries for the Selected District
                     $queryseasons = "SELECT DISTINCT season FROM agriculture";
+                    $querycolumnsipc = "select column_name from information_schema.columns where table_name='districtipcdata' and column_name<>'year' and column_name<>'state_or_ut' and column_name<>'total_ipc_crimes' and column_name<>'district';";
                     $queryconsti = "SELECT candidate_name, party_abbreviation, total_votes_polled, pc_name
                                     FROM (SELECT pc FROM distoconsti
                                     WHERE UPPER(dist)='$district') AS consti, ls2009candi 
@@ -50,6 +51,7 @@
                     $querytotalipc = "SELECT year, total_ipc_crimes FROM districtipcdata
                                     WHERE UPPER(district)='$district' ORDER BY year";
                     $seasons = pg_query($queryseasons);
+                    $columnsipc = pg_query($querycolumnsipc);
                     $consti = pg_query($queryconsti);
                     $agri = pg_query($queryagri);
                     $totalipc = pg_query($querytotalipc);
@@ -299,10 +301,85 @@
                 </div>
             </div>
 
+<!-- Comprehensive Crime data -->
+            <p><strong>Comprehensive crime-wise IPC Data for the District:</strong></p>
+            <div class="row">   
+                <div class="col-sm-4">
+                    <!-- Form for seasons selected -->
+                    <form action="district.php?choice=2" method="post">
+                        <?php 
+
+                        // Give the details for the selected seasons
+                        // $chosen = $_POST['chosen_seasons'];
+                        // for($i=0; $i < count($chosen); $i++){
+                        //     echo "Selected " . $chosen[$i] . "<br/>";
+                        // }
+                        while ($row = pg_fetch_array($columnsipc)) { ?>
+                            <div class="form-group row">
+                                    <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="grid-<?php echo $row['column_name']; ?>" name="chosen_ipctype[]" value="<?php echo $row['column_name']; ?>" <?php if (in_array($row['column_name'], $_POST['chosen_ipctype'])) echo "checked='checked'"; ?> >
+                                        <label class="form-check-label" for="grid-<?php echo $row['column_name']; ?>">
+                                            <?php echo $row['column_name']; ?>  
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <input type="hidden" value="<?php echo $district; ?>" name="district">
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-8">
+                    <!-- The details -->
+                    <?php
+                        $chosen = $_POST['chosen_ipctype'];
+                        $countchosen = count($chosen);
+                        $queryselectedipc = "SELECT year, ";
+                        for($x=0;$x<$countchosen;$x++){
+                            if($x!=$countchosen-1){
+                                $queryselectedipc=$queryselectedipc."sum($chosen[$x]) +";
+                            }else{
+                                $queryselectedipc=$queryselectedipc."sum($chosen[$x]) as sumcol";
+                            }
+                            
+                        }
+                        $queryselectedipc=$queryselectedipc." from districtipcdata where UPPER(district)=trim(upper('$district')) group by year order by year";
+                        
+                        $resultq = pg_query($queryselectedipc);
+                        
+
+                        echo '<table>
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Aggregate selected total crimes</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+                        while ($row = pg_fetch_array($resultq)) {
+                                echo '<tr>
+                                    <td>'.$row['year'].'</td>
+                                    <td>'.$row['sumcol'].'</td>
+                                </tr>';
+                        }
+                        echo '</tbody>
+                        </table> <br>';
+                    ?>
+                </div>
+            </div>
         <?php } ?>
+
+
             
 
     </div>
+
+
 
     <?php include 'footer.php' ?>
 
