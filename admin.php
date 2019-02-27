@@ -7,7 +7,7 @@
 if(isset($_POST['SubmitButtonQuery'])){ //check if form was submitted
   $input = $_POST['inputQuery']; //get input text
   echo "You are trying to execute: <br>".$input."<br>";
-  $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
+  $db = pg_connect( "host=10.17.50.115 port=5432 dbname=group_13 user=group_13 password=205-265-669" );
     $query = $input;
   $result = pg_query($query);
   if(!$result){
@@ -61,7 +61,7 @@ if(isset($_POST['Submitcandi'])){
         }
     }
     if($inputcheck){
-        $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
+        $db = pg_connect( "host=10.17.50.115 port=5432 dbname=group_13 user=group_13 password=205-265-669" );
         $insertquery = "INSERT INTO ls2009candi values (";
         for($x=0;$x<$inputarrlength;$x++){
             if($inputarrtype[$x]==0){
@@ -119,7 +119,7 @@ if(isset($_POST['Submitagri'])){
         }
     }
     if($inputcheck){
-        $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
+        $db = pg_connect( "host=10.17.50.115 port=5432 dbname=group_13 user=group_13 password=205-265-669" );
         $insertquery = "INSERT INTO agriculture values (";
         for($x=0;$x<$inputarrlength;$x++){
             if($inputarrtype[$x]==0){
@@ -193,7 +193,7 @@ if(isset($_POST['Submitattendupdate']) || isset($_POST['Submitattendadd'])){
         }
     }
     if($inputcheck){
-        $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
+        $db = pg_connect( "host=10.17.50.115 port=5432 dbname=group_13 user=group_13 password=205-265-669" );
         if($typequery==0){
             $insertquery = "UPDATE attendancedata set totalsittings = ".$inputarr[$inputarrlength-2].", dayssigned = ".$inputarr[$inputarrlength-1]." where ";
         }else{

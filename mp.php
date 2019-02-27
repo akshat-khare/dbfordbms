@@ -26,7 +26,7 @@
                 }
 
                 // connect to database
-                $db = pg_connect( "host=10.17.50.115 port=5432 dbname=project1 user=group_13 password=205-265-669" );
+                $db = pg_connect( "host=10.17.50.115 port=5432 dbname=group_13 user=group_13 password=205-265-669" );
 
                 if (!empty($_GET["choice"])) {
                     $choice = $_GET["choice"];
