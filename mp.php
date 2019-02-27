@@ -12,7 +12,7 @@
             return $data;
         }
 
-        $district = $constituency = "";
+        $district = $constituency = $gender = "";
         $choice = 0;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["district"]) && empty($_POST["constituency"])) {
@@ -47,10 +47,12 @@
                     }
                 } else {
                     // Give the queries for the selected MP
-                    $queryname = "SELECT candidate_name, pc_name FROM ls2009candi WHERE upper(pc_name)='$constituency' AND position=1";
+                    $queryname = "SELECT candidate_name, pc_name, candidate_sex as gender FROM ls2009candi WHERE upper(pc_name)='$constituency' AND position=1";
                     $queryattendance = "SELECT session, totalsittings, dayssigned FROM attendancedata WHERE upper(constituency)='$constituency' ORDER BY session";
+                    $querycompiled = "SELECT totalsittings, dayssigned FROM compiled_attendance WHERE upper(constituency)='$constituency'";
                     $name = pg_query($queryname);
                     $attendance = pg_query($queryattendance);
+                    $compiled = pg_query($querycompiled);
                 }
             }
         }
@@ -96,9 +98,13 @@
         </form>';
             } else {
                 while ($row = pg_fetch_array($name)) {
+                    if ($row['gender'] == 'M')
+                        $gender = 'His';
+                    else
+                        $gender = 'Her';
                     echo 'Your chosen Member of Parliament is: <h2>'.$row['candidate_name'];
                     echo '</h2><p>
-                        His attendance for the fifteenth Lok Sabha is as follows:
+                        '.$gender.' attendance for the fifteenth Lok Sabha is as follows:
                     </p>
                     <table>
                         <thead>
@@ -117,7 +123,10 @@
                             </tr>';
                     }
                     echo '</tbody>
-                    </table>';
+                    </table> <br>';
+                    while ($row = pg_fetch_array($compiled)) {
+                        echo $gender.' attendance for the <strong>Fifteenth</strong> Lok Sabha is: '.($row['dayssigned']/$row['totalsittings']*100);
+                    } 
                 }
             }
         ?>
