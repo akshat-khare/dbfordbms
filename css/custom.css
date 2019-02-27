@@ -59,3 +59,7 @@ body {
     background-size: cover;
 }
   
+.candidates .tab-content {
+    max-height: 50vh;
+    overflow: scroll;
+}

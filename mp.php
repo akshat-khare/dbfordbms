@@ -39,15 +39,12 @@
                         $chooseconsti = pg_query($querychoose);
                     } else {
                         // Get the districts from the keyword
-                        $querydistrict = "SELECT candidate_name, distoconsti.pc AS pc_name FROM distoconsti, ls2009candi WHERE upper(distoconsti.dist) like '%$district%' AND upper(ls2009candi.pc_name) like '%' ||distoconsti.pc || '%' AND ls2009candi.position=1";
+                        $querydistrict = "SELECT DISTINCT candidate_name, distoconsti.pc AS pc_name FROM distoconsti, ls2009candi WHERE upper(distoconsti.dist) like '%$district%' AND upper(ls2009candi.pc_name) like '%' ||distoconsti.pc || '%' AND ls2009candi.position=1";
                         $chooseconsti = pg_query($querydistrict);
-                        // while ($row = pg_fetch_array($chooseconsti)) {
-                        //     echo $row['candidate_name'];
-                        // }
                     }
                 } else {
                     // Give the queries for the selected MP
-                    $queryname = "SELECT candidate_name, pc_name, candidate_sex as gender FROM ls2009candi WHERE upper(pc_name)='$constituency' AND position=1";
+                    $queryname = "SELECT candidate_name, pc_name, candidate_sex as gender, candidate_age, party_abbreviation FROM ls2009candi WHERE upper(pc_name)='$constituency' AND position=1";
                     $queryattendance = "SELECT session, totalsittings, dayssigned FROM attendancedata WHERE upper(constituency)='$constituency' ORDER BY session";
                     $querycompiled = "SELECT totalsittings, dayssigned FROM compiled_attendance WHERE upper(constituency)='$constituency'";
                     $name = pg_query($queryname);
@@ -103,7 +100,8 @@
                     else
                         $gender = 'Her';
                     echo 'Your chosen Member of Parliament is: <h2>'.$row['candidate_name'];
-                    echo '</h2><p>
+                    echo '</h2><h4>'.$row['candidate_age'].', '.$row['party_abbreviation'].'</h4>';
+                    echo '<p>
                         '.$gender.' attendance for the fifteenth Lok Sabha is as follows:
                     </p>
                     <table>
